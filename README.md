@@ -47,4 +47,5 @@ Make sure there's no other application running on port 5000.
 
 --------
 
-Deployed at alessiomelone.pythonanywhere.com
+Deploy available [here](https://alessiomelone.pythonanywhere.com)
+
