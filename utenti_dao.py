@@ -19,15 +19,13 @@ def get_user_by_id(id_utente):
     connection = sqlite3.connect('db/fundraisin.db')
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
-
     cursor.execute(query, (id_utente,))
-
     result = cursor.fetchone()
-    
     cursor.close()
     connection.close()
 
     return result
+
 
 def get_user_by_email(email_utente):
     query = 'SELECT * FROM utenti WHERE email = ?'
@@ -39,7 +37,7 @@ def get_user_by_email(email_utente):
     cursor.execute(query, (email_utente,))
 
     result = cursor.fetchone()
-    
+
     cursor.close()
     connection.close()
 

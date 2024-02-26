@@ -2,6 +2,7 @@ import sqlite3
 from datetime import datetime, timedelta
 from operator import itemgetter
 
+
 def validate(raccolta):
     if (datetime.strptime(raccolta['timestamp_chiusura'], '%Y-%m-%d %H:%M:%S.%f') - datetime.strptime(raccolta['timestamp_creazione'], '%Y-%m-%d %H:%M:%S.%f')).days > 14:
       return 'La data di scadenza non può essere più di 14 giorni dopo la data di creazione'
@@ -40,6 +41,7 @@ def validate(raccolta):
       return 'Il campo donazione minima deve essere minore o uguale al campo donazione massima'
 
     return 'ok'
+
 
 def valid_card(carta):
     if len(carta) != 16:
@@ -93,6 +95,7 @@ def open(raccolta):
         return True
     return False
 
+
 def show_date(timestamp):
     timestamp = timestamp.split(' ')
     data = timestamp[0].split('-')
@@ -143,8 +146,8 @@ def get_raccolte_aperte_by_user(id_utente):
     return result
 
 #Ritorna una lista di dizionari con tutte le raccolte chiuse di un utente
-#se id_utente è None ritorna tutte le raccolte aperte
-#aggiunge dei campi utili per la visualizzazione
+#Se id_utente è None ritorna tutte le raccolte aperte
+#Aggiunge dei campi utili per la visualizzazione
 def get_raccolte_chiuse_by_user(id_utente):
     result = []
     query = 'SELECT * FROM raccolte WHERE timestamp_chiusura < ?'
@@ -291,6 +294,7 @@ def delete_donazioni_associate(id_raccolta):
     connection.close()
 
     return True
+
 
 def delete_raccolta_db(id_raccolta):
     query = 'DELETE FROM raccolte WHERE id = ?'

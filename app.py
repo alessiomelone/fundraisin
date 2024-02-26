@@ -18,13 +18,15 @@ login_manager.init_app(app)
 
 @app.route('/')
 def home():
-    raccolte = raccolte_dao.get_raccolte_aperte_by_user(None)
-    return render_template('home.html', raccolte=raccolte)
+    raccolte_db = raccolte_dao.get_raccolte_aperte_by_user(None)
+    return render_template('home.html', raccolte = raccolte_db)
+
 
 @app.route('/closed')
 def raccolte_chiuse():
-    raccolte = raccolte_dao.get_raccolte_chiuse_by_user(None)
-    return render_template('raccolte_chiuse.html', raccolte = raccolte)
+    raccolte_db = raccolte_dao.get_raccolte_chiuse_by_user(None)
+    return render_template('raccolte_chiuse.html', raccolte = raccolte_db)
+
 
 @app.route('/raccolte/<int:id>')
 def raccolta(id):
@@ -36,9 +38,7 @@ def raccolta(id):
 
 @app.route('/donate/<int:id_raccolta>', methods=['POST'])
 def donate(id_raccolta):
-
   raccolta = raccolte_dao.get_raccolta_by_id(id_raccolta)
-  print(raccolta['timestamp_chiusura'])
   if raccolta['timestamp_chiusura'] < datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'):
       flash('Raccolta chiusa', 'danger')
       return redirect(url_for('raccolta', id=id_raccolta))
@@ -57,10 +57,9 @@ def donate(id_raccolta):
     flash(stri, 'danger')
     return redirect(url_for('raccolta', id=id_raccolta))
 
-
   donazione['timestamp'] = str(datetime.now())
   donazione['id_raccolta'] = id_raccolta
-  donazione['anonima'] = 1 if 'anonima' in donazione else 0
+  donazione['anonima'] = '1' if 'anonima' in donazione else '0'
   donazione['carta'] = donazione['carta'].replace(' ', '')
 
   if not raccolte_dao.valid_card(donazione['carta']):
@@ -68,6 +67,7 @@ def donate(id_raccolta):
       return redirect(url_for('raccolta', id=id_raccolta))
 
   success = raccolte_dao.donate(donazione)
+
   if success:
       flash('Donazione completata con successo!', 'success')
   else:
@@ -85,15 +85,16 @@ def crea_raccolta():
     raccolta = request.form.to_dict()
     raccolta['id_utente'] = current_user.id
     raccolta['totale_raccolto'] = '0'
-    raccolta['timestamp_creazione'] = str(datetime.now())
+    raccolta['timestamp_creazione'] = datetime.now()
     if raccolta['lampo']=='1':
-      raccolta['timestamp_chiusura'] = raccolta['timestamp_creazione'] + timedelta(minutes=5)
+      raccolta['timestamp_chiusura'] = str(raccolta['timestamp_creazione'] + timedelta(minutes=5))
     else:
       # se è inserita la data di scadenza, la converto in datetime, altrimenti la scadenza è 14 giorni dopo la creazione
       if raccolta['scadenza'] == '':
-        raccolta['timestamp_chiusura'] = raccolta['timestamp_creazione'] + timedelta(days=14)
+        raccolta['timestamp_chiusura'] = str(raccolta['timestamp_creazione'] + timedelta(days=14))
       else:
         raccolta['timestamp_chiusura'] = raccolta['scadenza'] + ' ' + raccolta['ora_scadenza'] + ':00.000000'
+
     raccolta['timestamp_creazione']=str(raccolta['timestamp_creazione'])
 
     messagge = raccolte_dao.validate(raccolta)
@@ -105,13 +106,13 @@ def crea_raccolta():
     if 'img' in request.files and request.files['img'].filename != '':
       raccolta['img'] = '1'
     else:
-      raccolta['img'] = 0
+      raccolta['img'] = '0'
 
     #restituisce l'id della raccolta appena creata, altrimenti False
     success = raccolte_dao.create_raccolta(raccolta)
 
     if success:
-        if raccolta['img'] == 1:
+        if raccolta['img'] == '1':
             file = request.files['img']
             file.save('static/' + str(success) + '.jpg')
         flash('Raccolta creata con successo!', 'success')
@@ -270,15 +271,8 @@ def load_user(user_id):
     return user
 
 
-
-
 @login_required
 @app.route("/logout")
-@login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000, debug=True)
