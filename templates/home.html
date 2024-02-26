@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+<main>
+    <section class="py-5 text-center container">
+        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" class="video-fullscreen">
+            <source src="/static/home.mp4" type="video/mp4">
+            Il tuo browser non supporta la riproduzione di video.
+        </video>
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto bg-body-tertiary p-5 rounded-5">
+                <h1 class="fw-light">Benvenuto in FundRaisin</h1>
+                <p class="lead text-body-secondary">
+                    Benvenuti su FundRaisin, la piattaforma innovativa dedicata alla raccolta fondi che trasforma le
+                    vostre idee in realtà.
+                    Siamo qui per aiutare individui, organizzazioni non profit e imprese a raggiungere i loro obiettivi
+                    finanziari attraverso il potere della comunità.
+                    Che si tratti di sostenere cause sociali, finanziare progetti creativi o assistere nelle emergenze,
+                    FundRaisin offre uno spazio sicuro e facile da usare per condividere la vostra storia e raccogliere
+                    il sostegno di cui avete bisogno.
+                    Unitevi a noi nella nostra missione di fare la differenza, un raisin alla volta.
+                <p>
+                    <a href="#raccolte" class="btn btn-primary my-2">Esplora le raccolte fondi aperte</a>
+                    <a href="{{url_for('raccolte_chiuse')}}" class="btn btn-outline-primary my-2">Obiettivi
+                        raggiunti</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="album py-5 bg-body-tertiary">
+        <section id="raccolte" class="container">
+            <ol class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 list-unstyled">
+
+                {% for raccolta in raccolte %}
+                <li class="col">
+                    <div class="card shadow">
+
+                        {% if raccolta.img %}
+                        <img class="card-img-top" role="img" src="/static/{{raccolta.id}}.jpg"></img>
+                        {% else %}
+                        <img class="card-img-top" role="img" src="static/placeholder.jpg"></img>
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h3 class="card-title">{{raccolta.titolo}}</h3>
+                            {% if raccolta.lampo == 1 %}
+                            <small class="text-body-secondary">Raccolta lampo</small>
+                            {% else %}
+                            <small class="text-body-secondary">Raccolta normale</small>
+                            {% endif %}
+                            <p class="card-text mt-2">{{raccolta.descrizione}}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group mb-3">
+                                    <a type="button" href="{{url_for('raccolta', id = raccolta.id)}}"
+                                        class="btn btn-sm btn-primary">Dona ora!</a>
+                                    <a type="button" class="btn btn-sm btn-outline-primary"
+                                        href="{{ url_for('raccolta', id=raccolta.id) }}">Dettagli</a>
+                                </div>
+
+                                <small class="text-body-secondary text-end">{{raccolta.tempo_rimanente}}
+                                    rimanenti</small>
+                            </div>
+
+                            <div class="progress" role="progressbar" , style="height: 30px">
+                                <div class="progress-bar {% if raccolta.lampo == 1 %} progress-bar-striped progress-bar-animated {% endif %}"
+                                    style="width: {{raccolta.percentuale_completamento}}%">
+                                    {{raccolta.percentuale_completamento}}%</div>
+                            </div>
+
+                            <div class="text-end">
+                                <p class="card-text"><small class="text-body-secondary">Raccolti
+                                        {{raccolta.totale_raccolto}}€ su un obiettivo di {{raccolta.obiettivo}}€</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </section>
+    </div>
+</main>
+
+{% endblock %}

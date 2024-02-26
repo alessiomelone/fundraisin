@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %} Profilo {% endblock %}
+{% block content %}
+<main>
+  <div class="album py-3">
+    <section class="container">
+      <div class="row">
+        <div class="col">
+          <h1 class="fw-light">Le tue raccolte</h1>
+          <p class="lead text-body-secondary">
+            Qui puoi visualizzare le tue raccolte in corso.
+          </p>
+        </div>
+        <div class="col">
+          <a href="{{url_for('create_page')}}" class="btn btn-primary float-end">Crea una nuova raccolta</a>
+        </div>
+      </div>
+      <ol class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 list-unstyled">
+
+        {% for raccolta in raccolte_aperte %}
+        <li class="col">
+          <div class="card shadow">
+
+            {% if raccolta.img %}
+            <img class="bd-placeholder-img card-img-top" role="img" src="/static/{{raccolta.id}}.jpg"></img>
+            {% else %}
+            <img class="bd-placeholder-img card-img-top" role="img" src="/static/placeholder.jpg"></img>
+            {% endif %}
+
+            <div class="card-body">
+              <h3 class="card-title">{{raccolta.titolo}}</h3>
+              {% if raccolta.lampo == 1 %}
+              <small class="text-body-secondary">Raccolta lampo</small>
+              {% else %}
+              <small class="text-body-secondary">Raccolta normale</small>
+              {% endif %}
+              <p class="card-text">{{raccolta.descrizione}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group mb-3">
+                  <a type="button" href="{{url_for('raccolta', id = raccolta.id)}}" class="btn btn-sm btn-primary">Dona ora!</a>
+                  <a type="button" class="btn btn-sm btn-outline-primary" href="{{ url_for('raccolta', id=raccolta.id) }}">Dettagli</a>
+                </div>
+                <small class="text-body-secondary text-end">{{raccolta.tempo_rimanente}} rimanenti</small>
+              </div>
+
+              <div class="progress" role="progressbar", style="height: 30px">
+                <div class="progress-bar {% if raccolta.lampo == 1 %} progress-bar-striped progress-bar-animated {% endif %}" style="width: {{raccolta.percentuale_completamento}}%">{{raccolta.percentuale_completamento}}%</div>
+              </div>
+              
+              <div class="text-end">
+                <p class="card-text"><small class="text-body-secondary">Raccolti {{raccolta.totale_raccolto}}€ su un obiettivo di {{raccolta.obiettivo}}€</small></p>
+              </div>
+            </div>
+            <div class="card-footer text-end">
+              <div class="d-flex justify-content-end">
+                <a class="btn btn-primary me-2" href="{{url_for('edit_page', id_raccolta=raccolta.id)}}" role="button">
+                  Modifica
+                </a>
+                <form action="{{url_for('delete_raccolta', id_raccolta=raccolta.id)}}" method="POST">
+                  <button type="submit" class="btn btn-danger">Elimina</button>
+                </form>
+              </div>
+            </div>
+            
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </div>
+
+  <div class="album py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1 class="fw-light">Raccolte chiuse - credito accumulato: {{credito_utente}}€</h1>
+            <p class="lead text-body-secondary">
+              Se hai raggiunto il tuo obiettivo, puoi trovare i fondi nel tuo borsellino.            </p>
+          </div>
+        </div>
+        <ol class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 list-unstyled">
+        {% for raccolta in raccolte_chiuse %}
+        <li class="col">
+          <div class="card shadow">
+            {% if raccolta.img %}
+            <img class="bd-placeholder-img card-img-top" role="img" src="/static/{{raccolta.id}}.jpg"></img>
+            {% else %}
+            <img class="bd-placeholder-img card-img-top" role="img" src="/static/placeholder.jpg"></img>
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{raccolta.titolo}}</h5>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-{% if raccolta.obiettivo_raggiunto %}success{% else %}danger{% endif %}">
+                    Raccolta chiusa
+                  </button>
+                  <a type="button" class="btn btn-sm btn-outline-secondary" href="{{ url_for('raccolta', id=raccolta.id) }}">Dettagli</a>
+                </div>
+                <small class="text-body-secondary">Chiusa il {{raccolta.chiusa_il}}</small>
+                {% if raccolta.obiettivo_raggiunto %} <small class="text-end">I fondi sono stati aggiunti al borsellino</small> {% endif %}
+              </div>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+        </ol>
+      </div>
+  </div> 
+</main>
+{% endblock %}

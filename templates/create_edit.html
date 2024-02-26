@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Crea e modifica{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4 pb-4 bg-body-tertiary rounded-4 shadow-lg">
+    <h2 class="mb-4 pt-3 fw-light">{%if edit %} Modifica la tua raccolta fondi {%else%} Crea una raccolta fondi {%endif%}</h2>
+    <form action="{% if edit==0 %}/create{% else %}/edit_raccolta/{{ raccolta.id }}{% endif %}" method="POST" enctype="multipart/form-data">
+        <div class="form-floating mb-3">
+            <input {% if edit %} value="{{raccolta.titolo}}" {% endif %} type="text" class="form-control" id="titoloRaccolta" name="titolo" placeholder="Titolo" required minlength="2">
+            <label for="titoloRaccolta" class="form-label">Titolo</label>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="descrizioneRaccolta" class="form-label">Breve descrizione</label>
+            <input {% if edit %}value="{{raccolta.descrizione}}"{% endif %} class="form-control" id="descrizioneRaccolta" name="descrizione" rows="3" required minlength="5" maxlength="200"></input>
+        </div>
+
+        {% if not edit %}
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="inputFile" name="img" accept=".jpg, .jpeg, .png">
+            <label class="input-group-text" for="inputFile">Carica</label>
+          </div>
+        {% endif %}
+
+        <div class="form-group mb-3">
+            <label for="obiettivoMonetario" class="">Obiettivo (€)</label>
+            <input {% if edit %} value="{{raccolta.obiettivo}}" {% endif %} type="number" class="form-control" id="obiettivoMonetario" name="obiettivo" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="donazioneMinima">Entità minima della singola donazione (€)</label>
+            <input {% if edit %} value="{{raccolta.mindon}}" {% endif %} type="number" class="form-control" id="donazioneMinima" name="mindon" min="1" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="donazioneMassima">Entità massima della singola donazione (€)</label>
+            <input {% if edit %} value="{{raccolta.maxdon}}" {% endif %} type="number" class="form-control" id="donazioneMassima" name="maxdon" min="1" required>
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="tipoRaccolta">Tipo della raccolta</label>
+            <select class="form-control" id="tipoRaccolta" name="lampo" required>
+                <option value="1" {% if edit and raccolta.lampo %} selected {% endif %}>Lampo (5 minuti)</option>
+                <option value="0" {% if edit and not raccolta.lampo %} selected {% endif %}>Normale (fino a 14 giorni)</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="dataScadenza">Data di scadenza</label>
+            <input type="date" class="form-control" id="dataScadenza" name="scadenza" value="{{ data_scadenza if edit else '' }}">
+            <small class="form-text text-muted">Se hai selezionato una raccolta lampo, ignora questi campi. Se hai selezionato una raccolta normale, inserisci una data entro i prossimi 14 giorni</small>
+        </div>
+        <div class="form-group mb-4">
+            <label for="oraScadenza" class="form-label">Ora di scadenza</label>
+            <input type="time" class="form-control" id="oraScadenza" name="ora_scadenza" value="{{ ora_scadenza if edit else '' }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">{%if edit%} Modifica {%else%} Crea raccolta {% endif %}</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %} Registrati e accedi {% endblock %}
+
+{% block content %}
+<section class="container mb-5">
+    <div class="row justify-content-center">
+        
+        <section class="col-md-4 my-3">
+            <form action="/login" method="POST" class="card shadow">
+                <header class="card-header bg-primary text-white">
+                    <h3 class="card-title sign-title">Hai già un account? Accedi</h3>
+                </header>
+                <div class="card-body">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" name="email" id="emailInput" placeholder="Email" required>
+                        <label for="emailInput" class="form-label">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="Password" required>
+                        <label for="passwordInput" class="form-label">Password</label>
+                        <small id="passwordHelp" class="form-text text-muted">La tua password deve contenere almeno 8 caratteri.</small>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Accedi</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="col-md-8 my-3">
+            <form action="/signup" method="POST" class="card shadow">
+                <header class="card-header bg-primary text-white">
+                    <h3 class="card-title sign-title">Unisciti a FundRaisin!</h3>
+                </header>
+                <div class="card-body">
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" name="nome" id="nameInput" placeholder="Nome" required>
+                        <label for="nameInput" class="form-label">Nome</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" name="cognome" id="surnameInput" placeholder="Cognome" required>
+                        <label for="surnameInput" class="form-label">Cognome</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="email" class="form-control" name="email" id="emailInput" placeholder="Email" required>
+                        <label for="emailInput" class="form-label">Email</label>
+
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="Password" required minlength="8" maxlength="30">
+                        <label for="passwordInput" class="form-label">Password</label>
+                        <small id="passwordHelp" class="form-text text-muted">La tua password deve contenere almeno 8 caratteri, un numero, una lettera maiuscola e una minuscola.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrati</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</section>
+{% endblock %}

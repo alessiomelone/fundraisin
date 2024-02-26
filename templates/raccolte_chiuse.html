@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %} Raccolte chiuse {% endblock %}
+{% block content %}
+<main>
+    <section class="py-4 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Raccolte chiuse</h1>
+            <p class="lead text-body-secondary">
+                Le seguenti raccolte fondi sono state chiuse. Grazie a tutti coloro che hanno contribuito!
+            </p>
+          </div>
+        </div>
+    </section>
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+          <ol class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 list-unstyled">
+          {% for raccolta in raccolte %}
+          <li class="col">
+            <div class="card shadow">
+              {% if raccolta.img %}
+              <img class="bd-placeholder-img card-img-top" role="img" src="/static/{{raccolta.id}}.jpg"></img>
+              {% else %}
+              <img class="bd-placeholder-img card-img-top" role="img" src="/static/placeholder.jpg"></img>
+              {% endif %}
+              <div class="card-body">
+                <h3 class="card-title">{{raccolta.titolo}}</h3>
+                <p class="card-text">{{raccolta.descrizione}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-{% if raccolta.obiettivo_raggiunto %}success{% else %}danger{% endif %}">
+                      Raccolta chiusa{% if raccolta.obiettivo_raggiunto %} | Obiettivo raggiunto! {% endif %}
+                    </button>
+                    <a type="button" class="btn btn-sm btn-outline-secondary" href="{{ url_for('raccolta', id=raccolta.id) }}">Dettagli</a>
+                  </div>
+                  <small class="text-body-secondary text-end">Chiusa il {{raccolta.chiusa_il}}</small>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+          </ol>
+        </div>
+    </div> 
+{% endblock %}

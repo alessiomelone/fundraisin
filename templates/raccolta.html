@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %} {{raccolta.titolo}} {% endblock %}
+{% block content %}
+
+
+<main>
+  <!-- Intestazione -->
+  <section class="card mb-3 m-4">
+    <div class="row">
+      <div class="col-md-4">
+        {% if raccolta.img %}
+        <img src="/static/{{raccolta.id}}.jpg" class="card-img rounded">
+        {% else %}
+        <img src="/static/placeholder.jpg" class="card-img rounded">
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h3 class="card-title">{{raccolta.titolo}}</h5>
+          <p class="card-text">{{raccolta.descrizione}}</p>
+          <p class="card-text"><small class="text-body-secondary">Creata da {{nome_creatore}}, {{raccolta.creata_il}}
+            {% if not raccolta.aperta %} - Chiusa il {{raccolta.chiusa_il}}{% endif %}</small></p>
+
+          {% if raccolta.aperta %}
+          <a href="#dona" class="btn btn-primary my-2 mb-4">Dona ora!</a>
+          {% endif %}
+          <div class="progress" role="progressbar" style="height: 45px">
+            <div class="progress-bar {% if raccolta.aperta %} {% if raccolta.lampo %} progress-bar-striped progress-bar-animated {% endif %} 
+            {% else %} {%if raccolta.obiettivo_raggiunto %} bg-success {% else %} bg-danger {% endif %} {% endif %}" style="width: {{raccolta.percentuale_completamento}}%"> {{raccolta.percentuale_completamento}}% </div>
+          </div>
+          <div class="text-end">
+            <p class="card-text"><small class="text-body-secondary">Raccolti {{raccolta.totale_raccolto}}€ su un obiettivo di {{raccolta.obiettivo}}€</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Donazioni -->
+  <ol class="list-group m-4">
+    <li href="#" class="list-group-item list-group-item-action active" aria-current="true">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Donazioni</h5>
+      </div>
+    </li>
+    {% for donazione in donazioni %}
+    <li class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        {% if not donazione.anonima %}
+        <h5 class="mb-1">{{donazione.nome}}</h5>
+        {% else %}
+        <h5 class="mb-1">Anonimo</h5>
+        {% endif %}
+        <small class="text-body-secondary">{{donazione.tempo_passato}} fa</small>
+      </div>
+      <p class="mb-1">Ha donato {{donazione.importo}}€. Grazie!</p>
+      {% if donazione.messaggio %}
+      <small class="text-body-secondary">{{donazione.messaggio}}</small>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+
+  <!-- Se aperta, fai una donazione -->
+  {% if raccolta.aperta %}
+  <section id = "dona" class="card m-4">
+    <div class="card-body">
+      <h5 class="card-title">Fai una donazione</h5>
+
+      <form action="/donate/{{raccolta.id}}" method="POST">
+        <div class="card-body container">
+          <div class="row">
+            <div class="mb-3 form-floating col-6">
+              <input required type="text" class="form-control" name="nome" id="nameInput" placeholder="Nome">
+              <label for="nameInput" class="form-label mx-2">Nome</label>
+            </div>
+            <div class="mb-3 form-floating col-6">
+              <input required type="text" class="form-control" name="cognome" id="surnameInput" placeholder="Cognome">
+              <label for="surnameInput" class="form-label mx-2">Cognome</label>
+            </div>
+          </div>
+          <div class="mb-3 form-floating">
+            <input required type="text" class="form-control" name="indirizzo" id="addressInput" placeholder="Indirizzo">
+            <label for="addressInput" class="form-label">Indirizzo di fatturazione</label>
+          </div>
+  
+          <div class="mb-3 form-floating">
+            <input type="text" maxlen='30' class="form-control" name="messaggio" id="messaggioInput" placeholder="Breve messaggio (opzionale)">
+            <label for="messaggioInput" class="form-label ">Breve messaggio (opzionale)</label>
+          </div>
+
+          <!-- Numero carta di credito -->
+          <div class="mb-3 form-floating">
+            <input required minlength="16" maxlength="16" type="text" class="form-control" name="carta" id="cartaInput" placeholder="Numero carta di credito">
+            <label for="cartaInput" class="form-label">Numero carta di credito</label>
+          </div>
+
+          
+          <div class="input-group mb-3">
+            <span class="input-group-text">€</span>
+            <input type="number" name="importo" class="form-control" placeholder="Inserire un importo tra {{raccolta.mindon}}€ e {{raccolta.maxdon}}€">
+            <span class="input-group-text">.00</span>
+          </div>
+
+
+
+          <div class="form-check">
+            <input type="checkbox" value="" class="form-check-input" name="anonima" id="anonimaInput">
+            <label for="anonimaInput" class="form-check-label">Vuoi che la tua donazione sia anonima?</label>
+          </div>
+
+          <hr>
+          <button type="submit" class="btn btn-primary">Dona ora</button>
+        </div>
+      </form>
+
+    </div>
+  </section>
+  {% endif %}
+
+
+
+</main>
+{% endblock %}
