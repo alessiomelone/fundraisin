@@ -25,15 +25,15 @@ Jimmy1960
 
 Required Python extensions:
 
-- flask
+flask
 
      pip install flask
 
-- flask_login
+flask_login
 
      pip install flask_login
 
-- datetime
+datetime
 
     pip install datetime
 
