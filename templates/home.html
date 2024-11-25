@@ -2,28 +2,31 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 <main>
-    <section class="py-5 text-center container">
-        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" class="video-fullscreen">
-            <source src="/static/home.mp4" type="video/mp4">
-            Il tuo browser non supporta la riproduzione di video.
-        </video>
-        <div class="row py-lg-5">
-            <div class="col-lg-6 col-md-8 mx-auto bg-body-tertiary p-5 rounded-5">
-                <h1 class="fw-light">Benvenuto in FundRaisin</h1>
-                <p class="lead text-body-secondary">
-                    Benvenuti su FundRaisin, la piattaforma innovativa dedicata alla raccolta fondi che trasforma le
-                    vostre idee in realtà.
-                    Siamo qui per aiutare individui, organizzazioni non profit e imprese a raggiungere i loro obiettivi
-                    finanziari attraverso il potere della comunità.
-                    Che si tratti di sostenere cause sociali, finanziare progetti creativi o assistere nelle emergenze,
-                    FundRaisin offre uno spazio sicuro e facile da usare per condividere la vostra storia e raccogliere
-                    il sostegno di cui avete bisogno.
-                    Unitevi a noi nella nostra missione di fare la differenza, un raisin alla volta.
-                <p>
-                    <a href="#raccolte" class="btn btn-primary my-2">Esplora le raccolte fondi aperte</a>
-                    <a href="{{url_for('raccolte_chiuse')}}" class="btn btn-outline-primary my-2">Obiettivi
-                        raggiunti</a>
-                </p>
+    <section class="container-fluid p-0">
+        <div class="position-relative">
+            <div class="ratio ratio-16x9">
+                <video playsinline autoplay muted loop class="w-100">
+                    <source src="/static/home.mp4" type="video/mp4">
+                    Il tuo browser non supporta la riproduzione di video.
+                </video>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-8 mx-auto bg-body-tertiary p-5 rounded-5 text-center">
+                    <h1 class="fw-light">Benvenuto in FundRaisin</h1>
+                    <p class="lead text-body-secondary">
+                        Benvenuti su FundRaisin, la piattaforma innovativa dedicata alla raccolta fondi che trasforma le
+                        vostre idee in realtà.
+                        Siamo qui per aiutare individui, organizzazioni non profit e imprese a raggiungere i loro obiettivi
+                        finanziari attraverso il potere della comunità.
+                        Che si tratti di sostenere cause sociali, finanziare progetti creativi o assistere nelle emergenze,
+                        FundRaisin offre uno spazio sicuro e facile da usare per condividere la vostra storia e raccogliere
+                        il sostegno di cui avete bisogno.
+                        Unitevi a noi nella nostra missione di fare la differenza, un raisin alla volta.                    </p>
+                    <p>
+                        <a href="#raccolte" class="btn btn-primary my-2">Esplora le raccolte fondi aperte</a>
+                        <a href="{{url_for('raccolte_chiuse')}}" class="btn btn-outline-primary my-2">Obiettivi raggiunti</a>
+                    </p>
+                </div>
             </div>
         </div>
     </section>
