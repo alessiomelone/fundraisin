@@ -1,51 +1,55 @@
 # FundRaisin
-A web app, made with Flask and styled with Bootstrap.
-A sleek, user-friendly app for hosting and discovering fundraising campaigns.
-Created as a personal project for the 'Introduction to Web Applications' course at Politecnico di Torino, during my Computer Engineering Bachelor's.
 
-Use random card numbers: they're not checked or stored in the db.
+**FundRaisin** is a sleek and user-friendly web application built with Flask and styled using Bootstrap. It provides a platform for hosting and discovering fundraising campaigns, designed as a personal project for the *Introduction to Web Applications* course at Politecnico di Torino during my Computer Engineering Bachelor's.
 
--------
+> **Note:** Use random card numbers for testing purposes. These are neither checked nor stored in the database.
 
-Registered users:
+---
 
-- Alessio Melone:
-admin@admin.it
-Password123
+## Features
 
-- John Doe:
-johndoe@raisin.it
-PSWR41S1n
+- Simple, intuitive interface for users to create or browse fundraising campaigns.
+- Secure login system for registered users.
+- Styled using Bootstrap for a modern and responsive design.
 
-- Saul Goodman: 
-bettercallsaul@abq.nm
-Jimmy1960
+---
 
---------
+## Registered Users for Testing
 
-Required Python extensions:
+You can use the following accounts for testing the app:
 
-flask
+- **Alessio Melone**  
+  Email: `admin@admin.it`  
+  Password: `Password123`
 
-     pip install flask
+- **John Doe**  
+  Email: `johndoe@raisin.it`  
+  Password: `PSWR41S1n`
 
-flask_login
+- **Saul Goodman**  
+  Email: `bettercallsaul@abq.nm`  
+  Password: `Jimmy1960`
 
-     pip install flask_login
+---
 
-datetime
+## Installation and Usage
 
-    pip install datetime
+1. **Clone the repository**  
+   ```bash
+   git clone <repository_url>
+   cd FundRaisin
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+3. **Run the application**
+   ```bash
+   flask run
 
-Use the command 
+Access the app at http://127.0.0.1:5000.
 
-     flask run 
-     
-to run the application on 127.0.0.1:5000
+Ensure no other applications are running on port 5000.
 
-Make sure there's no other application running on port 5000.
-
---------
+---
+## Live Demo
 
 Deploy available [here](https://alessiomelone.pythonanywhere.com)
-
